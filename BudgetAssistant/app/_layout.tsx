@@ -6,7 +6,6 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" />
-      <Stack.Screen name="setup" />
       <Stack.Screen name="chat" />
     </Stack>
   );
