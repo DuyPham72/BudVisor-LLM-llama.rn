@@ -1,33 +1,36 @@
-// app/components/InputBar.tsx
 import React, { useState, forwardRef, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, TextInput as RNTextInput, Platform, Keyboard } from 'react-native';
+import { View, TextInput, Button, StyleSheet, TextInput as RNTextInput } from 'react-native';
 
 interface InputBarProps {
   onSend: (text: string) => void;
   onStop: () => void;
   isGenerating: boolean;
+  stopped: boolean; // new prop
 }
 
 const InputBar = forwardRef<RNTextInput, InputBarProps>(
-  ({ onSend, onStop, isGenerating }, ref) => {
+  ({ onSend, onStop, isGenerating, stopped }, ref) => {
     const [text, setText] = useState('');
 
-    // Focus input whenever generation stops
+    const handleSend = () => {
+      if (!text.trim() || isGenerating || !stopped) return; // disabled until allowed
+      const msg = text.trim();
+      setText('');
+      onSend(msg);
+    };
+
+    const handleStop = () => {
+      if (!isGenerating) return; // only stop when generating
+      onStop();
+    };
+
     useEffect(() => {
       if (!isGenerating) {
-        // Delay slightly to allow UI to update
         setTimeout(() => {
           (ref as React.RefObject<RNTextInput>)?.current?.focus();
         }, 50);
       }
     }, [isGenerating]);
-
-    const handleSend = () => {
-      if (!text.trim() || isGenerating) return; // lock while generating
-      onSend(text.trim());
-      setText('');
-      if (Platform.OS !== 'web') Keyboard.dismiss(); // optional
-    };
 
     return (
       <View style={styles.container}>
@@ -42,10 +45,20 @@ const InputBar = forwardRef<RNTextInput, InputBarProps>(
           returnKeyType="send"
           blurOnSubmit={false}
         />
+
         {isGenerating ? (
-          <Button title="Stop" color="red" onPress={onStop} />
+          <Button
+            title="Stop"
+            color="red"
+            onPress={handleStop} // always clickable while generating
+          />
         ) : (
-          <Button title="Send" onPress={handleSend} />
+          <Button
+            title="Send"
+            color={stopped ? '#2196F3' : '#888'}
+            onPress={handleSend}
+            disabled={!stopped}
+          />
         )}
       </View>
     );
@@ -60,7 +73,10 @@ const styles = StyleSheet.create({
     padding: 8,
     borderTopWidth: 1,
     borderColor: '#eee',
+    backgroundColor: '#fff',
     alignItems: 'center',
+    height: 56,
+    overflow: 'hidden',
   },
   input: {
     flex: 1,
@@ -70,5 +86,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     height: 40,
     fontSize: 16,
+    backgroundColor: '#fff',
   },
 });

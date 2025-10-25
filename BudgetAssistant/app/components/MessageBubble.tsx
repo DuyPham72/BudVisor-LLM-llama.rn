@@ -1,15 +1,26 @@
-// app/components/MessageBubble.tsx
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default function MessageBubble({ role, text }: { role: 'user'|'assistant', text: string }) {
-  const align = role === 'user' ? 'flex-end' : 'flex-start';
-  const bg = role === 'user' ? '#DCF8C6' : '#FFFFFF';
+interface Props {
+  role: 'user' | 'assistant';
+  text: string;
+}
+
+const MessageBubble = React.memo(({ role, text }: Props) => {
   return (
-    <View style={{ alignSelf: align, marginVertical:4, maxWidth:'85%' }}>
-      <View style={{ backgroundColor: bg, padding:10, borderRadius:8 }}>
-        <Text>{text}</Text>
-      </View>
+    <View
+      style={{
+        alignSelf: role === 'user' ? 'flex-end' : 'flex-start',
+        backgroundColor: role === 'user' ? '#DCF8C6' : '#EEE',
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 4,
+        maxWidth: '80%',
+      }}
+    >
+      <Text style={{ color: '#000' }}>{text}</Text>
     </View>
   );
-}
+});
+
+export default MessageBubble;
