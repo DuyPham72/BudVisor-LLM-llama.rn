@@ -25,17 +25,17 @@ export default function SetupWelcome() {
       const embeddingExists = await RNFS.exists(EMBEDDING_FILE);
 
       if (modelExists && embeddingExists) {
-        setStatus('Initializing LLaMA...');
+        setStatus('Initializing...');
         await initModelsIfNeeded({ initializeOnly: true });
         router.replace('./chat');
       } else {
-        setStatus('Downloading missing models...');
+        setStatus('Downloading missing components...');
         await initModelsIfNeeded({
           modelUrl: MODEL_URL,
           embeddingUrl: EMBEDDING_URL,
           onProgress: (text) => setStatus(text),
         });
-        setStatus('Initializing LLaMA...');
+        setStatus('Initializing...');
         await initModelsIfNeeded({ initializeOnly: true });
         router.replace('./chat');
       }
