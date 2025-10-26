@@ -1,4 +1,4 @@
-// app/index.tsx
+// BudgetAssistant/app/index.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, ActivityIndicator, Alert } from 'react-native';
 import { useRouter } from 'expo-router';

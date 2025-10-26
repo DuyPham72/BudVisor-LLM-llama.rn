@@ -1,3 +1,4 @@
+// BudgetAssistant/app/components/MessageBubble.tsx
 import React from 'react';
 import { View, Text } from 'react-native';
 

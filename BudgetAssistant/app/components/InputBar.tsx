@@ -1,3 +1,4 @@
+// BudgetAssistant/app/components/InputBar.tsx
 import React, { useState, forwardRef, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, TextInput as RNTextInput } from 'react-native';
 

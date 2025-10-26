@@ -1,3 +1,4 @@
+// BudgetAssistant/app/chat.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { FlatList, TextInput as RNTextInput, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

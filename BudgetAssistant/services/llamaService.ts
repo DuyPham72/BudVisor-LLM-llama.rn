@@ -1,4 +1,4 @@
-// services/llamaService.ts
+// BudgetAssistant/services/llamaService.ts
 import RNFS from 'react-native-fs';
 import { initLlama, LlamaContext } from 'llama.rn';
 
