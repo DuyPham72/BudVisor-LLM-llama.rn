@@ -4,6 +4,7 @@ import { View, Text, Button, ActivityIndicator, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import RNFS from 'react-native-fs';
 import { initModelsIfNeeded } from '../services/llamaService';
+import { clearChatMemory } from '../services/dbService';
 
 const MODEL_FILE = RNFS.DocumentDirectoryPath + '/models/gemma-3-1b-it-q4_0.gguf';
 const EMBEDDING_FILE = RNFS.DocumentDirectoryPath + '/models/embeddinggemma-300m-Q4_0.gguf';
@@ -27,6 +28,7 @@ export default function SetupWelcome() {
       if (modelExists && embeddingExists) {
         setStatus('Initializing...');
         await initModelsIfNeeded({ initializeOnly: true });
+        await clearChatMemory(); // 🧹 forget previous chat session
         router.replace('./chat');
       } else {
         setStatus('Downloading missing components...');
@@ -37,6 +39,7 @@ export default function SetupWelcome() {
         });
         setStatus('Initializing...');
         await initModelsIfNeeded({ initializeOnly: true });
+        await clearChatMemory(); // 🧹 clear memory after setup
         router.replace('./chat');
       }
     } catch (err: any) {

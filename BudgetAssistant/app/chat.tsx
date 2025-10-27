@@ -5,14 +5,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import InputBar from './components/InputBar';
 import MessageBubble from './components/MessageBubble';
 import { answerQuery } from '../services/ragService';
+import { generateId } from '../services/idGenerator';
 
 interface Message {
   id: string;
   text: string;
   role: 'user' | 'assistant';
 }
-
-const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);

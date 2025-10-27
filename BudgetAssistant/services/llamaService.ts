@@ -38,7 +38,7 @@ export async function initModelsIfNeeded(opts?: {
     llamaContext = await initLlama({
       model: modelUri,
       use_mlock: false, // safe for Android
-      n_ctx: 512,       // smaller context
+      n_ctx: 2048,       // smaller context
       n_batch: 4,       // faster token generation
       embedding: true,  // embedding enabled
     });
