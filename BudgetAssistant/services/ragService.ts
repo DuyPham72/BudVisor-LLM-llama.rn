@@ -91,14 +91,17 @@ Rules:
 2. Use quantitative reasoning when analyzing numbers (e.g., percentages, averages, deltas).
 3. When referencing numbers, always explain what they mean in context.
 4. Keep explanations concise but analytical.
+5. If the context does not contain relevant information, respond with "Insufficient data in context to answer the question."
+6. Round all float numbers to two decimal places.
 
-Tone:
-- Professional, calm, and data-oriented.
-
-Output Format:
+Response Structure:
+Your response must be structured into three sections: 
 - **Summary**: brief overview of the analysis or key findings.
 - **Details**: relevant numbers, categories, and comparisons from the context.
 - **Recommendation**: clear next steps or financial advice.
+
+Tone:
+- Professional, calm, and data-oriented.
 `;
 
   // Step 3: Format the history using Gemma's turn tokens.
