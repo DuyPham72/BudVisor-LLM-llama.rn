@@ -48,44 +48,12 @@ export async function answerQuery(
   // Step 1: Load recent conversation history (needed for rewriting & final prompt)
   const history: ChatMessage[] = await getChatHistory(4);  // last 2 Q&A pairs
 
-  let retrievalQuery = query;
-
-  // Step 2: Query Rewriting (Crucial for follow-up questions)
-  if (history.length > 0) {
-    const rewritePrompt = `
-You are a context assistant. Given the conversation history and the latest user message, rewrite the latest user message into a single, standalone query that fully captures the user's intent, without using pronouns like 'it', 'that', or 'this'. Only output the rewritten query.
-
-Conversation History:
-${history.map(m => `${m.role}: ${m.text}`).join('\n')}
-
-Latest User Message: ${query}
-
-Rewritten Query:`;
-
-    // Use a quick, deterministic completion for rewriting
-    try {
-      const rewriteResult = await ctx.completion({
-        prompt: `<bos><start_of_turn>user\n${rewritePrompt}<end_of_turn><start_of_turn>model\n`,
-        n_predict: 50, 
-        temperature: 0.0,
-        stop: ['\n', '<end_of_turn>', 'Rewritten Query:'],
-      });
-      
-      const rewrittenText = rewriteResult.text.trim();
-      if (rewrittenText.length > 5) {
-        retrievalQuery = rewrittenText;
-      }
-    } catch(e) {
-      console.warn("Query rewriting failed, using original query.");
-    }
-  }
-
   // ----------------------------------------------------
   // 2. RETRIEVAL-AUGMENTATION BLOCK
   // ----------------------------------------------------
 
   // Step 1: Embed the query (using rewritten query if applicable)
-  const queryEmbedding = await embedText(retrievalQuery);
+  const queryEmbedding = await embedText(query);
 
   // Step 2: Retrieve all stored documents (chunks)
   const allDocs: Document[] = await getAllDocs();
@@ -101,6 +69,7 @@ Rewritten Query:`;
 
   // Step 4: Format the retrieved context for the prompt
   const contextText = scored
+    .filter(d => d.score > 0.6)
     .map((d, i) => `[Source Chunk ${i + 1} (Score: ${d.score.toFixed(3)}):\n${d.text.slice(0, 500)}]`) 
     .join('\n---\n');
 
@@ -110,23 +79,12 @@ Rewritten Query:`;
 
   // Step 1: Define system instructions
   const systemInstruction = `
-You are CornBot, a professional financial data analyst and budget advisor.
-Your goal is to help users understand their financial situation, analyze spending patterns, detect trends, and provide practical, data-driven insights.
-
-Rules:
-1. Use quantitative reasoning when analyzing numbers (e.g., percentages, averages, deltas).
-2. When referencing numbers, always explain what they mean in context.
-3. Keep explanations concise but analytical.
-4. Round all float numbers to two decimal places.
-5. Limit your answer to 250 words.
-
-Response Structure:
-Your response must be structured into three sections: 
-- **Summary**: brief overview of the analysis or key findings.
-- **Details**: relevant numbers, categories, and comparisons from the context.
-- **Recommendation**: clear next steps or financial advice.
-
-Tone: Professional and data-oriented.
+You are CornBot, a financial analyst. Provide practical, data-driven insights.
+Rules: Be concise, analytical, and round floats to 2 decimals.
+Format:
+- **Summary**: [brief summary]
+- **Details**: [numbers, details]
+- **Recommendation**: [advice]
 `;
 
   // Step 2: Format the chat history
@@ -150,7 +108,8 @@ User question: ${query}
     : augmentedQuery;
 
   // Step 5: Combine everything into the final prompt string.
-  const prompt = `<bos>${formattedHistory}<start_of_turn>user\n${userContent}<end_of_turn><start_of_turn>model\n`;
+  const prompt = `<bos>${formattedHistory}<start_of_turn>user\n${userContent}<end_of_turn><start_of_turn>model
+**Summary**:`;
 
   // ----------------------------------------------------------
   // 4. LLM COMPLETION BLOCK
@@ -169,7 +128,7 @@ User question: ${query}
         n_predict: nPredict,
         top_p: 0.95,
         top_k: 64,
-        temperature: 0.8,
+        temperature: 0.3,
         min_p: 0.02,
         stop: stopWords, 
       },
@@ -201,9 +160,11 @@ User question: ${query}
   }
   reply = reply.replace(/<end_of_turn>|<end_of_text>|\n\n/g, '').trim();
 
+  const finalReply = `**Summary**: ${reply}`;
+  
   // Save chat history
   await addChatMessage('user', query);
-  await addChatMessage('assistant', reply);
+  await addChatMessage('assistant', finalReply);
 
-  return reply;
+  return finalReply;
 }

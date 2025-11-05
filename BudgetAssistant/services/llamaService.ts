@@ -5,7 +5,7 @@ import { initLlama, LlamaContext } from 'llama.rn';
 let llamaContext: LlamaContext | null = null;
 
 const MODEL_DIR = RNFS.DocumentDirectoryPath + '/models';
-const MODEL_FILE = MODEL_DIR + '/gemma-3-1b-it-q4_0.gguf';
+const MODEL_FILE = MODEL_DIR + '/Llama-3.2-3B-Instruct-Q4_K_M.gguf';
 const EMBEDDING_FILE = MODEL_DIR + '/embeddinggemma-300m-Q4_0.gguf';
 
 export async function initModelsIfNeeded(opts?: {
@@ -38,7 +38,7 @@ export async function initModelsIfNeeded(opts?: {
     llamaContext = await initLlama({
       model: modelUri,
       use_mlock: false, // safe for Android
-      n_ctx: 2048,       // smaller context
+      n_ctx: 2048,       // medium context
       n_batch: 512,       // faster token generation
       n_threads: 6,     // use 4 threads in Pixel 8
       embedding: true,  // embedding enabled

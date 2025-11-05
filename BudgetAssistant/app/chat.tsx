@@ -6,6 +6,7 @@ import InputBar from './components/InputBar';
 import MessageBubble from './components/MessageBubble';
 import { answerQuery } from '../services/ragService';
 import { generateId } from '../services/idGenerator';
+import { clearChatMemory } from '../services/dbService';
 
 interface Message {
   id: string;
@@ -69,6 +70,14 @@ export default function Chat() {
       return () => clearTimeout(timeout);
     }
   }, [messages]);
+
+  // ✅ Clear chat memory on unmount
+  useEffect(() => {
+    return () => {
+      console.log('Leaving chat screen, clearing chat memory...');
+      clearChatMemory();
+    };
+  }, []);
 
   const stopGenerating = () => {
     if (shouldStopRef.current) return; // already stopping

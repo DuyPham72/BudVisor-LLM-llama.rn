@@ -6,10 +6,10 @@ import RNFS from 'react-native-fs';
 import { initModelsIfNeeded } from '../services/llamaService';
 import { clearChatMemory } from '../services/dbService';
 
-const MODEL_FILE = RNFS.DocumentDirectoryPath + '/models/gemma-3-1b-it-q4_0.gguf';
+const MODEL_FILE = RNFS.DocumentDirectoryPath + '/models/Llama-3.2-3B-Instruct-Q4_K_M.gguf';
 const EMBEDDING_FILE = RNFS.DocumentDirectoryPath + '/models/embeddinggemma-300m-Q4_0.gguf';
 
-const MODEL_URL = 'https://www.dropbox.com/scl/fi/29ibpsl2wjzh4ed4ufl7k/gemma-3-1b-it-q4_0.gguf?rlkey=1etghy080szoqzzgi7pl4g023&st=hcr4thes&dl=1';
+const MODEL_URL = 'https://www.dropbox.com/scl/fi/wxipr7hi36xmj37xn9hbg/Llama-3.2-3B-Instruct-Q4_K_M.gguf?rlkey=ws9qkb2mb7ual2cyjpydktw6j&st=ds5cbuqo&dl=1';
 const EMBEDDING_URL = 'https://www.dropbox.com/scl/fi/k52v2hvv0nb400gsw02yp/embeddinggemma-300m-Q4_0.gguf?rlkey=ajxtfwaic56m04qbyua357p65&st=ng4ee5lp&dl=1';
 
 export default function SetupWelcome() {
