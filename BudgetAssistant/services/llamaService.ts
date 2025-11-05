@@ -39,7 +39,8 @@ export async function initModelsIfNeeded(opts?: {
       model: modelUri,
       use_mlock: false, // safe for Android
       n_ctx: 2048,       // smaller context
-      n_batch: 4,       // faster token generation
+      n_batch: 512,       // faster token generation
+      n_threads: 6,     // use 4 threads in Pixel 8
       embedding: true,  // embedding enabled
     });
   }

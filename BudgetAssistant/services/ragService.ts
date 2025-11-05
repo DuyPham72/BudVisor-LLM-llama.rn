@@ -32,67 +32,93 @@ function cosine(a: number[], b: number[]): number {
     return denominator === 0 ? 0 : dot / denominator;
 }
 
-/**
- * Answers a user query by formatting recent chat history into the Gemma chat template
- * and sending it to the Llama context for completion.
- */
+
 export async function answerQuery(
   query: string,
   onPartial?: (chunk: string) => void,
-  topK = 3,
-  nPredict = 256
+  topK = 1,
+  nPredict = 384
 ): Promise<string> {
   const ctx = getLlamaContext();
 
   // ----------------------------------------------------
-  // 1. RETRIEVAL-AUGMENTATION BLOCK
+  // 1. PRE-RAG: HISTORY & QUERY REWRITING BLOCK 🧠
   // ----------------------------------------------------
 
-  // Step 1: Embed the user's query
-  const queryEmbedding = await embedText(query);
+  // Step 1: Load recent conversation history (needed for rewriting & final prompt)
+  const history: ChatMessage[] = await getChatHistory(4);  // last 2 Q&A pairs
 
-  // Step 2: Retrieve all stored documents (chunks) (native SQL vector search if scale?)
+  let retrievalQuery = query;
+
+  // Step 2: Query Rewriting (Crucial for follow-up questions)
+  if (history.length > 0) {
+    const rewritePrompt = `
+You are a context assistant. Given the conversation history and the latest user message, rewrite the latest user message into a single, standalone query that fully captures the user's intent, without using pronouns like 'it', 'that', or 'this'. Only output the rewritten query.
+
+Conversation History:
+${history.map(m => `${m.role}: ${m.text}`).join('\n')}
+
+Latest User Message: ${query}
+
+Rewritten Query:`;
+
+    // Use a quick, deterministic completion for rewriting
+    try {
+      const rewriteResult = await ctx.completion({
+        prompt: `<bos><start_of_turn>user\n${rewritePrompt}<end_of_turn><start_of_turn>model\n`,
+        n_predict: 50, 
+        temperature: 0.0,
+        stop: ['\n', '<end_of_turn>', 'Rewritten Query:'],
+      });
+      
+      const rewrittenText = rewriteResult.text.trim();
+      if (rewrittenText.length > 5) {
+        retrievalQuery = rewrittenText;
+      }
+    } catch(e) {
+      console.warn("Query rewriting failed, using original query.");
+    }
+  }
+
+  // ----------------------------------------------------
+  // 2. RETRIEVAL-AUGMENTATION BLOCK
+  // ----------------------------------------------------
+
+  // Step 1: Embed the query (using rewritten query if applicable)
+  const queryEmbedding = await embedText(retrievalQuery);
+
+  // Step 2: Retrieve all stored documents (chunks)
   const allDocs: Document[] = await getAllDocs();
 
   // Step 3: Calculate similarity and select top K
   const scored = allDocs
-    // Map each document to an object including its similarity score with the query
     .map((doc) => ({ 
         ...doc, 
         score: cosine(queryEmbedding, doc.embedding) 
     }))
-    // Sort in descending order of score (highest similarity first)
     .sort((a, b) => b.score - a.score)
-    // Take only the top K documents
     .slice(0, topK);
 
   // Step 4: Format the retrieved context for the prompt
   const contextText = scored
-    .filter(d => d.score > 0.6) // Optional: filter out very irrelevant results
     .map((d, i) => `[Source Chunk ${i + 1} (Score: ${d.score.toFixed(3)}):\n${d.text.slice(0, 500)}]`) 
     .join('\n---\n');
 
   // ----------------------------------------------------
-  // 2. PROMPT AUGMENTATION & COMPLETION BLOCK
+  // 3. PROMPT AUGMENTATION & COMPLETION BLOCK
   // ----------------------------------------------------
 
-  // Step 1: Load recent conversation history
-  const history: ChatMessage[] = await getChatHistory(10);  // last 5 questions and answers
-
-  // Step 2: Set up system instructions
+  // Step 1: Define system instructions
   const systemInstruction = `
 You are CornBot, a professional financial data analyst and budget advisor.
 Your goal is to help users understand their financial situation, analyze spending patterns, detect trends, and provide practical, data-driven insights.
 
-**CRITICAL RULE: Always use the provided 'FINANCIAL CONTEXT' (if available) to answer the user's question. Do not hallucinate data. If the answer is not in the context, state that the information is missing.**
-
 Rules:
-1. Always think step-by-step before giving an answer.
-2. Use quantitative reasoning when analyzing numbers (e.g., percentages, averages, deltas).
-3. When referencing numbers, always explain what they mean in context.
-4. Keep explanations concise but analytical.
-5. If the context does not contain relevant information, respond with "Insufficient data in context to answer the question."
-6. Round all float numbers to two decimal places.
+1. Use quantitative reasoning when analyzing numbers (e.g., percentages, averages, deltas).
+2. When referencing numbers, always explain what they mean in context.
+3. Keep explanations concise but analytical.
+4. Round all float numbers to two decimal places.
+5. Limit your answer to 250 words.
 
 Response Structure:
 Your response must be structured into three sections: 
@@ -100,21 +126,16 @@ Your response must be structured into three sections:
 - **Details**: relevant numbers, categories, and comparisons from the context.
 - **Recommendation**: clear next steps or financial advice.
 
-Tone:
-- Professional, calm, and data-oriented.
+Tone: Professional and data-oriented.
 `;
 
-  // Step 3: Format the history using Gemma's turn tokens.
+  // Step 2: Format the chat history
   const formattedHistory = history.map((m) => {
     const roleToken = m.role === 'user' ? 'user' : 'model';
     return `<start_of_turn>${roleToken}\n${m.text}<end_of_turn>`;
   }).join('');
 
-  // ----------------------------------------------------------
-  // 3. COMBINE EVERYTHING INTO THE FINAL AUGMENTED PROMPT
-  // ----------------------------------------------------------
-
-  // Step 1: Create the augmented query with context
+  // Step 3: Create the augmented query with context
   const augmentedQuery = `
 FINANCIAL CONTEXT:
 ---
@@ -123,15 +144,20 @@ ${contextText || "No relevant financial documents found in the database. Rely on
 User question: ${query}
 `;
 
-  // Step 2: Combine everything into the final prompt string.
-  const prompt = `<bos>${formattedHistory}<start_of_turn>user\n${systemInstruction}\n\n${augmentedQuery}<end_of_turn><start_of_turn>model\n`;
+  // Step 4: FIX: Inject System Instruction ONLY if this is the FIRST turn.
+  const userContent = history.length === 0 
+    ? `${systemInstruction}\n\n${augmentedQuery}`
+    : augmentedQuery;
+
+  // Step 5: Combine everything into the final prompt string.
+  const prompt = `<bos>${formattedHistory}<start_of_turn>user\n${userContent}<end_of_turn><start_of_turn>model\n`;
 
   // ----------------------------------------------------------
   // 4. LLM COMPLETION BLOCK
   // ----------------------------------------------------------
 
   let buffer = '';
-  const flushTokenCount = 5;
+  const flushTokenCount = 3;
   let tokenCounter = 0;
   const stopWords = ['<end_of_turn>', '<start_of_turn>user', '<start_of_turn>model', '[Stopped]'];
 
@@ -141,10 +167,11 @@ User question: ${query}
       {
         prompt,
         n_predict: nPredict,
-        top_p: 0.9,
-        top_k: 40,
-        temperature: 0.7,
-        stop: stopWords,    // Stop at end of turn or new user turn
+        top_p: 0.95,
+        top_k: 64,
+        temperature: 0.8,
+        min_p: 0.02,
+        stop: stopWords, 
       },
       (data) => {
         if (!data?.token) return;

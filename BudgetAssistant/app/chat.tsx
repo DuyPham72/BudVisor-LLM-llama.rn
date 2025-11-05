@@ -46,7 +46,7 @@ export default function Chat() {
     });
   };
 
-  // ✅ Stream updates every 80ms, but now we only update the message that changed
+  // ✅ Stream updates every 50ms, but now we only update the message that changed
   useEffect(() => {
     const interval = setInterval(() => {
       Object.entries(streamingRefs.current).forEach(([id, text]) => {
@@ -55,7 +55,7 @@ export default function Chat() {
           updateMessageText(id, text);
         }
       });
-    }, 80);
+    }, 50);
 
     return () => clearInterval(interval);
   }, []);
