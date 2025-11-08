@@ -11,22 +11,11 @@ BudgetAssistant-RAG-Llama.rn
 - Add data from 4 catagories to the promp and use it to give advice. 
 - Print welcome message
 - Bring embedding model to assert to save time
-- Thread option for ctx (base on device core)
-
---- 
-
-## COMPARE MODEL PERFORMANCE:
-- **unsloth/gemma-3-1b-it-Q4_K_M.gguf** (806 MB)
-- **google/gemma-3-1b-it-qat-q4_0-gguf** (1 GB)
-- **unsloth/gemma-3-270m-it-F16.gguf** (543 MB) (temperature = 1.0, top_k = 64, top_p = 0.95, min_p = 0.0)
-
-SELECT THE BEST
 
 ---
 
 ## EXTRA: 
 - May parse response to update the catagories and pie chart??
-- Add sample financial document in assert as guide for RAG (*)
 - Add sugessions
 
 ---
