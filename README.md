@@ -8,7 +8,8 @@ BudgetAssistant-RAG-Llama.rn
 ---
 
 ## FUTURE IMPROVE FOR CHATBOT
-- Add data from 4 catagories to the promp and use it to give advice. 
+- Add data from 4 catagories to the promp and use it to give advice.
+- Check pdf file parsing and embedding function 
 
 ---
 
