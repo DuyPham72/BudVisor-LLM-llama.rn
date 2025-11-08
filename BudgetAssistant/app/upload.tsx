@@ -10,11 +10,11 @@ import { addDocument, getAllDocs, deleteDocument, resetRAGDatabase } from '../se
 
 // --- Type Definitions for Documents ---
 interface Document {
-    id: string;
-    text: string;
-    embedding: number[]; 
-    summary: string; 
-    chunkCount: number; 
+  id: string;
+  text: string;
+  embedding: number[]; 
+  summary: string; 
+  chunkCount: number; 
 }
 
 // --- Text Extraction ---
