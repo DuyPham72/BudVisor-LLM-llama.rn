@@ -163,7 +163,7 @@ Rewritten Question: `;
 
   // Step 1: Define system instructions
   const systemInstruction = `
-You are CornBot, a financial analyst. Provide practical, data-driven insights.
+You are BudVisor, a financial analyst. Provide practical, data-driven insights.
 Rules: Be concise, analytical, and round floats to 2 decimals.
 Format:
 **Summary**: \n[brief summary]  \n\n
@@ -180,7 +180,6 @@ Format:
   // Step 3: Create the augmented query with context
   const augmentedQuery = `
 FINANCIAL CONTEXT:
----
 ${contextText || "No relevant financial documents found in the database. Rely only on general financial knowledge."}
 ---
 ${query}
@@ -192,7 +191,7 @@ ${query}
     : augmentedQuery;
 
   // Step 5: Combine everything into the final prompt string.
-  const prompt = `<bos>${formattedHistory}<start_of_turn>user\n${userContent}<end_of_turn><start_of_turn>model
+  const prompt = `<bos>${formattedHistory}<end_of_turn><start_of_turn>user\n${userContent}<end_of_turn><start_of_turn>model
 `;
 
   console.log(`LLM COMPLETION BLOCK`);
@@ -251,8 +250,12 @@ ${query}
 
   // Clean the reply by removing tokens
   const rawReply = result.text.trim();
+  let reply = result.text
+  .replace(/You are BudVisor[\s\S]*?(Recommendation:)?/i, '') // remove system echo
+  .replace(/FINANCIAL CONTEXT:[\s\S]*$/, '') // remove context echo
+  .replace(/<.*?>/g, '') // strip tokens
+  .trim();
   
-  let reply = rawReply;
   const userTurnIndex = reply.indexOf('<start_of_turn>user');
   if (userTurnIndex !== -1) {
     reply = reply.substring(0, userTurnIndex);

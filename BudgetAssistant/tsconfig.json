@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "Node16",
+    "module": "esnext",
     "lib": [
       "DOM",
       "ESNext"
     ],
     "jsx": "react-jsx",
     "strict": true,
-    "moduleResolution": "node16",
+    "moduleResolution": "bundler",
     "allowJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

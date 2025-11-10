@@ -1,7 +1,8 @@
 // BudgetAssistant/app/chat.tsx
 import React, { useState, useRef, useEffect } from 'react';
-import { FlatList, TextInput as RNTextInput, KeyboardAvoidingView, Platform, View } from 'react-native';
+import { FlatList, TextInput as RNTextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {useHeaderHeight as useHeaderHeightElements} from '@react-navigation/elements';
 import InputBar from './components/InputBar';
 import MessageBubble from './components/MessageBubble';
 import { answerQuery } from '../services/ragService';
@@ -27,6 +28,13 @@ export default function Chat() {
   const shouldStopRef = useRef(false);
   const inputRef = useRef<RNTextInput>(null);
   const flatListRef = useRef<FlatList>(null);
+
+  const useHeaderHeight = ()=> {
+    const headerHeight = useHeaderHeightElements();
+  const fixedHeight = useRef(headerHeight);
+
+  return Platform.OS === 'android' ? fixedHeight.current : headerHeight;
+  };
 
   // Adds message while preserving the existing reference as much as possible
   const addMessage = (msg: Message) => {
@@ -178,37 +186,35 @@ export default function Chat() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+        behavior={'height'}
+        keyboardVerticalOffset={ useHeaderHeight() }
       >
-        <View style={{ flex: 1 }}>
-          <FlatList
-            ref={flatListRef}
-            data={messages}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <MessageBubble role={item.role} text={item.text} />
-            )}
-            contentContainerStyle={{
-              flexGrow: 1,
-              padding: 12,
-              paddingBottom: 80,
-            }}
-            keyboardShouldPersistTaps="handled"
-            removeClippedSubviews
-            windowSize={5}
-            maxToRenderPerBatch={6}
-            updateCellsBatchingPeriod={100}
-          />
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <MessageBubble role={item.role} text={item.text} />
+          )}
+          contentContainerStyle={{
+            flexGrow: 1,
+            padding: 12,
+            paddingBottom: 80,
+          }}
+          keyboardShouldPersistTaps="handled"
+          removeClippedSubviews
+          windowSize={5}
+          maxToRenderPerBatch={6}
+          updateCellsBatchingPeriod={100}
+        />
 
-          <InputBar
-            ref={inputRef}
-            onSend={onSend}
-            onStop={stopGenerating}
-            isGenerating={isGenerating}
-            stopped={stopped}  // <-- new prop
-          />
-        </View>
+        <InputBar
+          ref={inputRef}
+          onSend={onSend}
+          onStop={stopGenerating}
+          isGenerating={isGenerating}
+          stopped={stopped}
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
