@@ -3,18 +3,10 @@ A **local Small Language Model (SLM)–based AI agent** implemented with **Llama
 
 The system **integrates Retrieval-Augmented Generation (RAG)** to enhance context understanding and accuracy while maintaining **full offline operation and data privacy**.
 
-BudgetAssistant-RAG-Llama.rn
-
 ---
 
 ## FUTURE IMPROVE FOR CHATBOT
-- Add data from 4 catagories to the promp and use it to give advice.
 - Check pdf file parsing and embedding function 
-
----
-
-## EXTRA: 
-- May parse response to update the catagories and pie chart??
 
 ---
 
