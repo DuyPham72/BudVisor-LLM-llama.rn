@@ -1,4 +1,4 @@
-# Local Budget Assistant using SLM with RAG
+# Local Budget Assistant using LLM with RAG
 A **local Large Language Model (LLM)–based AI agent** implemented with **Llama.rn** and **React Native**, designed for **on-device financial reasoning** on mobile.
 
 The system **integrates Retrieval-Augmented Generation (RAG)** to enhance context understanding and accuracy while maintaining **full offline operation and data privacy**.
