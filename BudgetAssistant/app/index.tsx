@@ -66,7 +66,7 @@ export default function SetupWelcome() {
 
       // 3. Clear old chats and navigate
       await clearChatMemory(); 
-      router.replace('./upload');
+      router.replace('./App');
 
     } catch (err: any) {
       console.error(err);

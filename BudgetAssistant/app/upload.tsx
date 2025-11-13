@@ -8,6 +8,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { embedText } from '../services/embeddingService';
 import { addDocument, getAllDocs, deleteDocument, resetRAGDatabase } from '../services/dbService';
 
+interface UploadScreenProps {
+  onBack: () => void;
+  onOpenMenu: () => void;
+}
+
 // --- Type Definitions for Documents ---
 interface Document {
   id: string;
@@ -100,7 +105,7 @@ function splitTextIntoChunks(text: string, chunkSize = 512): string[] {
 }
 
 // --- Main Screen Component ---
-export default function UploadScreen() {
+const UploadScreen: React.FC<UploadScreenProps> = ({ onBack, onOpenMenu }) => {
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState<string>('Ready to select document.');
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -260,7 +265,16 @@ export default function UploadScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Upload Financial Documents</Text>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+            onPress={onBack} // Use the onBack prop
+            style={styles.iconButton}
+          >
+            <Ionicons name="arrow-back" size={24} color="#111827" />
+        </TouchableOpacity>
+
+        <Text style={styles.header}>Upload Documents</Text>
+      </View>
 
       <View style={styles.uploadSection}>
         {uploading ? (
@@ -293,17 +307,30 @@ export default function UploadScreen() {
         ListEmptyComponent={<Text style={styles.emptyText}>No documents processed yet.</Text>}
       />
 
-      <TouchableOpacity style={styles.chatButton} onPress={() => router.push('./chat')} disabled={uploading}>
-        <Ionicons name="chatbubbles-outline" size={28} color="#fff" />
-      </TouchableOpacity>
+
     </View>
   );
 }
 
+export default UploadScreen;
+
 // --- Styles ---
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#f7f7f7' },
-  header: { fontSize: 24, marginBottom: 20, textAlign: 'center', fontWeight: 'bold', color: '#1c1c1e' },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center', // This will center the title
+    alignItems: 'center',
+    position: 'relative',      // This is crucial for absolute positioning the button
+    marginBottom: 20,        // We move this from 'header' to the container
+  },
+  header: { 
+    fontSize: 24, 
+    // marginBottom: 20, // <-- REMOVE THIS LINE
+    textAlign: 'center', 
+    fontWeight: 'bold', 
+    color: '#1c1c1e' 
+  },
   uploadSection: {
     marginBottom: 10,
     padding: 15,
@@ -326,6 +353,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
+  },
+  iconButton: {
+    position: 'absolute', // Position it relative to headerContainer
+    left: 0,              // Pin it to the far left
+    padding: 4,
+    zIndex: 1,            // Make sure it's on top
   },
   progressContainer: { alignItems: 'center' },
   statusTextProgress: { marginTop: 15, color: '#007AFF', textAlign: 'center', fontWeight: '600' },

@@ -1,0 +1,433 @@
+{
+  "user_profile": {
+    "full_name": "Kaesi Winchester",
+    "created_at": "2024-12-31"
+  },
+  "accounts": 
+    {
+      "account_name": "Checking",
+      "beginning_balance": 5000.00,
+      "transactions": [
+        {
+          "date_transacted": "2025-01-10",
+          "description": "Transportation",
+          "amount": -48.35,
+          "balance": 4951.65
+        },
+        {
+          "date_transacted": "2025-01-11",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 8151.65
+        },
+        {
+          "date_transacted": "2025-01-12",
+          "description": "Transportation",
+          "amount": -23.29,
+          "balance": 8128.36
+        },
+        {
+          "date_transacted": "2025-01-14",
+          "description": "Food",
+          "amount": -60.82,
+          "balance": 8067.54
+        },
+        {
+          "date_transacted": "2025-01-18",
+          "description": "Entertainment",
+          "amount": -144.34,
+          "balance": 7923.2
+        },
+        {
+          "date_transacted": "2025-01-22",
+          "description": "Entertainment",
+          "amount": -47.17,
+          "balance": 7876.03
+        },
+        {
+          "date_transacted": "2025-01-28",
+          "description": "Entertainment",
+          "amount": -42.29,
+          "balance": 7833.74
+        },
+        {
+          "date_transacted": "2025-02-03",
+          "description": "Entertainment",
+          "amount": -67.99,
+          "balance": 7765.75
+        },
+        {
+          "date_transacted": "2025-02-04",
+          "description": "Entertainment",
+          "amount": -149.39,
+          "balance": 7616.36
+        },
+        {
+          "date_transacted": "2025-02-11",
+          "description": "Food",
+          "amount": -120.01,
+          "balance": 7496.35
+        },
+        {
+          "date_transacted": "2025-02-15",
+          "description": "Food",
+          "amount": -88.76,
+          "balance": 7407.59
+        },
+        {
+          "date_transacted": "2025-02-17",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 10907.59
+        },
+        {
+          "date_transacted": "2025-02-21",
+          "description": "Food",
+          "amount": -147.7,
+          "balance": 10759.89
+        },
+        {
+          "date_transacted": "2025-02-24",
+          "description": "Food",
+          "amount": -29.14,
+          "balance": 10730.75
+        },
+        {
+          "date_transacted": "2025-03-01",
+          "description": "Housing",
+          "amount": -137.8,
+          "balance": 10592.95
+        },
+        {
+          "date_transacted": "2025-03-11",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 13792.95
+        },
+        {
+          "date_transacted": "2025-03-14",
+          "description": "Entertainment",
+          "amount": -95.59,
+          "balance": 13697.36
+        },
+        {
+          "date_transacted": "2025-03-15",
+          "description": "Food",
+          "amount": -45.99,
+          "balance": 13651.37
+        },
+        {
+          "date_transacted": "2025-03-18",
+          "description": "Food",
+          "amount": -53.71,
+          "balance": 13597.66
+        },
+        {
+          "date_transacted": "2025-03-18",
+          "description": "Housing",
+          "amount": -136.89,
+          "balance": 13460.77
+        },
+        {
+          "date_transacted": "2025-03-28",
+          "description": "Transportation",
+          "amount": -111.36,
+          "balance": 13349.41
+        },
+        {
+          "date_transacted": "2025-04-03",
+          "description": "Entertainment",
+          "amount": -115.58,
+          "balance": 13233.83
+        },
+        {
+          "date_transacted": "2025-04-08",
+          "description": "Food",
+          "amount": -68.01,
+          "balance": 13165.82
+        },
+        {
+          "date_transacted": "2025-04-18",
+          "description": "Food",
+          "amount": -11.27,
+          "balance": 13154.55
+        },
+        {
+          "date_transacted": "2025-04-18",
+          "description": "Food",
+          "amount": -21.07,
+          "balance": 13133.48
+        },
+        {
+          "date_transacted": "2025-04-20",
+          "description": "Transportation",
+          "amount": -107.64,
+          "balance": 13025.84
+        },
+        {
+          "date_transacted": "2025-04-23",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 16225.84
+        },
+        {
+          "date_transacted": "2025-04-25",
+          "description": "Food",
+          "amount": -94.2,
+          "balance": 16131.64
+        },
+        {
+          "date_transacted": "2025-05-11",
+          "description": "Entertainment",
+          "amount": -42.69,
+          "balance": 16288.95
+        },
+        {
+          "date_transacted": "2025-05-11",
+          "description": "Food",
+          "amount": -127.9,
+          "balance": 16161.05
+        },
+        {
+          "date_transacted": "2025-05-14",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 19361.05
+        },
+        {
+          "date_transacted": "2025-05-20",
+          "description": "Food",
+          "amount": -68.7,
+          "balance": 19292.35
+        },
+        {
+          "date_transacted": "2025-05-22",
+          "description": "Entertainment",
+          "amount": -95.42,
+          "balance": 19196.93
+        },
+        {
+          "date_transacted": "2025-05-27",
+          "description": "Housing",
+          "amount": -83.11,
+          "balance": 19113.82
+        },
+        {
+          "date_transacted": "2025-05-27",
+          "description": "Entertainment",
+          "amount": -13.35,
+          "balance": 19100.47
+        },
+        {
+          "date_transacted": "2025-06-01",
+          "description": "Entertainment",
+          "amount": -59.57,
+          "balance": 19040.9
+        },
+        {
+          "date_transacted": "2025-06-02",
+          "description": "Entertainment",
+          "amount": -141.06,
+          "balance": 18899.84
+        },
+        {
+          "date_transacted": "2025-06-10",
+          "description": "Housing",
+          "amount": -50.21,
+          "balance": 18849.63
+        },
+        {
+          "date_transacted": "2025-06-17",
+          "description": "Entertainment",
+          "amount": -111.26,
+          "balance": 18738.37
+        },
+        {
+          "date_transacted": "2025-06-17",
+          "description": "Entertainment",
+          "amount": -21.13,
+          "balance": 18717.24
+        },
+        {
+          "date_transacted": "2025-06-21",
+          "description": "Food",
+          "amount": -136.72,
+          "balance": 18580.52
+        },
+        {
+          "date_transacted": "2025-06-23",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 21780.52
+        },
+        {
+          "date_transacted": "2025-07-12",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 24980.52
+        },
+        {
+          "date_transacted": "2025-07-12",
+          "description": "Entertainment",
+          "amount": -119.3,
+          "balance": 24861.22
+        },
+        {
+          "date_transacted": "2025-07-13",
+          "description": "Housing",
+          "amount": -92.01,
+          "balance": 24769.21
+        },
+        {
+          "date_transacted": "2025-07-15",
+          "description": "Transportation",
+          "amount": -128.02,
+          "balance": 24641.19
+        },
+        {
+          "date_transacted": "2025-07-18",
+          "description": "Entertainment",
+          "amount": -94.67,
+          "balance": 24546.52
+        },
+        {
+          "date_transacted": "2025-07-27",
+          "description": "Food",
+          "amount": -107.51,
+          "balance": 24439.01
+        },
+        {
+          "date_transacted": "2025-07-27",
+          "description": "Entertainment",
+          "amount": -38.61,
+          "balance": 24400.4
+        },
+        {
+          "date_transacted": "2025-08-02",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 27600.4
+        },
+        {
+          "date_transacted": "2025-08-02",
+          "description": "Transportation",
+          "amount": -24.41,
+          "balance": 27575.99
+        },
+        {
+          "date_transacted": "2025-08-05",
+          "description": "Food",
+          "amount": -45.18,
+          "balance": 27530.81
+        },
+        {
+          "date_transacted": "2025-08-14",
+          "description": "Food",
+          "amount": -41.64,
+          "balance": 27489.17
+        },
+        {
+          "date_transacted": "2025-08-20",
+          "description": "Entertainment",
+          "amount": -125.77,
+          "balance": 27363.4
+        },
+        {
+          "date_transacted": "2025-08-20",
+          "description": "Food",
+          "amount": -30.43,
+          "balance": 27332.97
+        },
+        {
+          "date_transacted": "2025-08-28",
+          "description": "Entertainment",
+          "amount": -6.72,
+          "balance": 27626.25
+        },
+        {
+          "date_transacted": "2025-09-14",
+          "description": "Food",
+          "amount": -147.45,
+          "balance": 27478.8
+        },
+        {
+          "date_transacted": "2025-09-14",
+          "description": "Transportation",
+          "amount": -66.24,
+          "balance": 27412.56
+        },
+        {
+          "date_transacted": "2025-09-14",
+          "description": "Housing",
+          "amount": -32.24,
+          "balance": 27380.32
+        },
+        {
+          "date_transacted": "2025-09-17",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 30580.32
+        },
+        {
+          "date_transacted": "2025-09-20",
+          "description": "Entertainment",
+          "amount": -33.59,
+          "balance": 30546.73
+        },
+        { 
+          "date_transacted": "2025-09-23",
+          "description": "Food",
+          "amount": -31.61,
+          "balance": 30515.12
+        },
+        {
+          "date_transacted": "2025-09-24",
+          "description": "Food",
+          "amount": -141.26,
+          "balance": 30373.86
+        },
+        {
+          "date_transacted": "2025-10-03",
+          "description": "Income",
+          "amount": 3200.0,
+          "balance": 33573.86
+        },
+        {
+          "date_transacted": "2025-10-11",
+          "description": "Entertainment",
+          "amount": -112.02,
+          "balance": 33461.84
+        },
+        {
+          "date_transacted": "2025-10-11",
+          "description": "Housing",
+          "amount": -18.24,
+          "balance": 33443.6
+        },
+        {
+          "date_transacted": "2025-10-15",
+          "description": "Food",
+          "amount": -54.99,
+          "balance": 33388.61
+        },
+        {
+          "date_transacted": "2025-10-18",
+          "description": "Food",
+          "amount": -129.22,
+          "balance": 33259.39
+        },
+        {
+          "date_transacted": "2025-10-24",
+          "description": "Food",
+          "amount": -37.1,
+          "balance": 33222.29
+        },
+        {
+          "date_transacted": "2025-10-24",
+          "description": "Housing",
+          "amount": -126.41,
+          "balance": 33095.88
+        }
+      ]
+    }    
+}
