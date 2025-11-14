@@ -55,6 +55,41 @@ services/
 
 ---
 
+## LLM Models
+
+| Models                    | Functions              |
+|---------------------------|:----------------------:|
+| granite-4.0-h-350m        | Query Rewriter         |
+| granite-4.0-h-1b          | Reasoning              |
+| embeddinggemma-300m       | Embedding              |
+
+- **granite-4.0-h-350m**:
+  Download the model from [Hugging Face](https://huggingface.co/ibm-granite/granite-4.0-h-350m)
+  
+- **granite-4.0-h-1b**:
+  Download the model from [Hugging Face](https://huggingface.co/ibm-granite/granite-4.0-h-1b)
+
+- **embeddinggemma-300m**:
+  Download the model from [Hugging Face](https://huggingface.co/google/embeddinggemma-300m)
+    
+---
+
+## System Architecture
+- **React Native** – Mobile UI framework
+- **TypeScript** – Strongly typed code for better maintainability
+- **llama.rn** – On-device LLM inference
+- **SQLite** – Local database for storing transactions and embeddings
+- **LLM models** - Reason over financial data, answer user questions, and summarize spending behavior
+- **RAG** – Enhances reasoning accuracy
+- **SVG** – Data visualization for spending insights
+
+---
+
+## System Pipeline
+
+
+---
+
 ## SAMPLE UX/UI FOR REFERENCE
 <p align="center">
   <img src="demo/overall.png"><br/>
