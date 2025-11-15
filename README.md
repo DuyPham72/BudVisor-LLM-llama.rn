@@ -85,19 +85,23 @@ services/
 ---
 
 ## Usage
-1. Install dependencies
+1. Go into project directory
+    ```bash
+   cd .\BudgetAssistant\
+   ```
+2. Install dependencies
    ```bash
    npm install
    ```
-2. Build the android environment
+3. Build the android environment
    ```bash
    npx expo prebuild
    ```
-3. Create the app
+4. Create the app
    ```bash
    npx react-native run-android
    ```
-4. Start the app
+5. Start the app
    ```bash
    npx expo run
    ```
