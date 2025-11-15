@@ -28,19 +28,19 @@ app/
 │   ├── MessageBubble.tsx
 │   ├── progress.tsx
 │   ├── select.tsx
-│   ├── tabs.tsx
+│   └── tabs.tsx
 │
 ├── _layout.tsx
 ├── App.tsx                    # Root application entry
 ├── chat.tsx                   # Chat screen for user interaction
 ├── MainScreen.tsx             # Dashboard displaying charts & summaries
 ├── chunkDetail.tsx            # Transaction chunk visualization
-├── upload.tsx                 # Handles local data upload
+└── upload.tsx                 # Handles local data upload
 
 assets/                        
 ├── data/
 │   ├── kaesi.json             # Initial data for testing app's feature
-├── images/                    # Icons and static assets
+└── images/                    # Icons and static assets
 
 services/
 ├── dataIngestionService.ts    # Reads and structures local financial data
